@@ -1,238 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Student Enrollment Verification Letter</title>
+  <meta charset="UTF-8">
+  <title>Student Enrollment Verification Letter</title>
 
-<style>
-/* ================= A4 SETUP ================= */
-@page {
-  size: A4;
-  margin: 0;
-}
+  <style>
+    /* ================= A4 SETUP ================= */
+    @page {
+      size: A4;
+      margin: 0;
+    }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-body {
-  font-family: Arial, Helvetica, "Liberation Sans", sans-serif;
-  margin: 0;
-}
+    body {
+      font-family: Arial, Helvetica, "Liberation Sans", sans-serif;
+      margin: 0;
+    }
 
-/* ================= PAGE ================= */
-.page {
-  width: 100%;
-  padding: 20mm 15mm 20mm 15mm; /* top right bottom left */
-  color: #000;
-}
+    /* ================= PAGE ================= */
+    .page {
+      width: 100%;
+      padding: 20mm 15mm 20mm 15mm;
+      color: #000;
+    }
 
-/* ================= HEADER ================= */
-.header {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-}
+    /* ================= HEADER ================= */
+    .header {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+    }
 
-.logo {
-  width: 65px;
-  margin-left: 15px;
-  margin-top: 5px;
-}
+    .logo {
+      width: 65px;
+      margin-left: 15px;
+      margin-top: 5px;
+    }
 
-.header-title {
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  white-space: nowrap;
-}
+    .header-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
 
-/* ================= DIVIDER ================= */
-hr {
-  border: none;
-  border-top: 2px solid #000;
-  margin: 12px 0 18px;
-}
+    /* ================= DIVIDER ================= */
+    hr {
+      border: none;
+      border-top: 2px solid #000;
+      margin: 12px 0 18px;
+    }
 
-/* ================= INFO TABLE ================= */
-.info {
-  width: 100%;
-  font-size: 13px;
-  margin-bottom: 25px;
-}
+    /* ================= INFO TABLE ================= */
+    .info {
+      width: 100%;
+      font-size: 13px;
+      margin-bottom: 25px;
+    }
 
-.info td {
-  vertical-align: top;
-}
+    .info td {
+      vertical-align: top;
+    }
 
-.info .label {
-  width: 125px;
-}
+    .info .label {
+      width: 125px;
+    }
 
-.info .colon {
-  width: 10px;
-  text-align: center;
-}
+    .info .colon {
+      width: 10px;
+      text-align: center;
+    }
 
-.info .value {
-  padding-left: 25px;
-}
+    .info .value {
+      padding-left: 25px;
+    }
 
-/* ================= REGISTRAR ================= */
-.registrar-title {
-  text-align: center;
-  font-size: 26px;
-  font-weight: bold;
-  margin: 25px 0;
-}
+    /* ================= REGISTRAR ================= */
+    .registrar-title {
+      text-align: center;
+      font-size: 26px;
+      font-weight: bold;
+      margin: 25px 0;
+    }
 
-/* ================= CONTENT ================= */
-.content {
-  font-size: 14px;
-  line-height: 1.6;
-}
+    /* ================= CONTENT ================= */
+    .content {
+      font-size: 14px;
+      line-height: 1.6;
+    }
 
-.date {
-  margin-bottom: 20px;
-}
+    .date {
+      margin-bottom: 20px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+    }
 
-.section-title {
-  margin-bottom: 20px;
-}
+    .section-title {
+      margin-bottom: 20px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
 
-.details {
-  margin: 15px 0 20px;
-}
+    .details {
+      margin: 15px 0 20px;
+    }
 
-.details p {
-  margin: 4px 0;
-}
+    .details p {
+      margin: 4px 0;
+    }
 
-.spaced {
-  margin-bottom: 20px;
-}
+    .spaced {
+      margin-bottom: 20px;
+    }
 
-/* ================= SIGNATURE ================= */
-.signature {
-  margin-top: 30px;
-}
+    /* ================= SIGNATURE ================= */
+    .signature {
+      margin-top: 30px;
+    }
 
-.signature img {
-  width: 115px;
-  margin-left: -10px;
-}
+    .signature img {
+      width: 115px;
+      margin-left: -10px;
+    }
 
-.signature-name {
-  font-weight: bold;
-}
+    .signature-name {
+      font-weight: bold;
+    }
 
-.sig-line {
-  width: 130px;
-  border-top: 2px solid #000;
-  margin: 35px 0 10px;
-}
+    .sig-line {
+      width: 130px;
+      border-top: 2px solid #000;
+      margin: 35px 0 10px;
+    }
 
-/* ================= FOOTER ================= */
-.footer {
-  font-size: 13px;
-  margin-top: 15px;
-}
-</style>
+    /* ================= FOOTER ================= */
+    .footer {
+      font-size: 13px;
+      margin-top: 15px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="page">
+  <div class="page">
 
-  <!-- HEADER -->
-  <div class="header">
-    <img src="https://static.wixstatic.com/media/872c7b_e07c67f61f1546f7855b08955d9f951c~mv2.png/v1/fill/w_150,h_150,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/St%20Benet%20Biscop.png"
-         class="logo" alt="Logo">
+    <!-- HEADER -->
+    <div class="header">
+      <img
+        src="https://static.wixstatic.com/media/872c7b_e07c67f61f1546f7855b08955d9f951c~mv2.png/v1/fill/w_150,h_150,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/St%20Benet%20Biscop.png"
+        class="logo" alt="Logo">
 
-    <div class="header-title">
-      Saint Benet Biscop Catholic Academy Bedlington
-    </div>
-  </div>
-
-  <hr>
-
-  <!-- INFO -->
-  <table class="info">
-    <tr>
-      <td colspan="3">University of Management and Economics</td>
-    </tr>
-    <tr>
-      <td class="label">Address</td>
-      <td class="colon">:</td>
-      <td class="value">Ridge Terrace, Bedlington, Northumberland, NE22 6ED</td>
-    </tr>
-    <tr>
-      <td class="label">Phone</td>
-      <td class="colon">:</td>
-      <td class="value">01670 822 795</td>
-    </tr>
-    <tr>
-      <td class="label">Website</td>
-      <td class="colon">:</td>
-      <td class="value">https://www.st-benetbiscop.org.uk/</td>
-    </tr>
-  </table>
-
-  <!-- REGISTRAR -->
-  <div class="registrar-title">Office of the Registrar</div>
-
-  <!-- CONTENT -->
-  <div class="content">
-    <div class="date">Date Issued: October-06-2025</div>
-
-    <div class="section-title">STUDENT ENROLLMENT VERIFICATION LETTER</div>
-
-    <p class="spaced">To Whom It May Concern,</p>
-
-    <p>
-      This letter is to certify that
-      <strong>{{ first_name }} {{ last_name }}</strong>
-      is currently enrolled as a student at the Saint Benet Biscop Catholic Academy
-      Bedlington for the current academic term.
-    </p>
-
-    <div class="details">
-      <p>Student Name: <strong>{{ first_name }} {{ last_name }}</strong></p>
-      <p>Program of Study: Web Developer</p>
-      <p>Enrollment Status: Full-time</p>
-      <p>Enrollment Start Date: May 13, 2024</p>
-      <p>Expected Completion Date: May 13, 2026</p>
-    </div>
-
-    <p class="spaced">
-      This verification is issued upon the student's request for the purpose of verifying
-      eligibility for student benefits.
-    </p>
-
-    <p>
-      Should you require further information, please do not hesitate to contact our office.
-    </p>
-
-    <!-- SIGNATURE -->
-    <div class="signature">
-      <p>Sincerely,</p>
-      <img src="signature.png" alt="Signature">
-      <p class="signature-name">Mr. A. J. Norris</p>
-
-      <div class="sig-line"></div>
-
-      <div class="footer">
-        University Registrar<br>
-        Office of the Registrar<br>
-        Saint Benet Biscop Catholic Academy Bedlington<br>
-        https://www.st-benetbiscop.org.uk/ (01670 822 795)
+      <div class="header-title">
+        Saint Benet Biscop Catholic Academy Bedlington
       </div>
     </div>
+
+    <hr>
+
+    <!-- INFO -->
+    <table class="info">
+      <tr>
+        <td colspan="3">University of Management and Economics</td>
+      </tr>
+      <tr>
+        <td class="label">Address</td>
+        <td class="colon">:</td>
+        <td class="value">Ridge Terrace, Bedlington, Northumberland, NE22 6ED</td>
+      </tr>
+      <tr>
+        <td class="label">Phone</td>
+        <td class="colon">:</td>
+        <td class="value">01670 822 795</td>
+      </tr>
+      <tr>
+        <td class="label">Website</td>
+        <td class="colon">:</td>
+        <td class="value">https://www.st-benetbiscop.org.uk/</td>
+      </tr>
+    </table>
+
+    <!-- REGISTRAR -->
+    <div class="registrar-title">Office of the Registrar</div>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <div>Date Issued: <span class="date">October 10, 2025</span></div>
+
+      <div class="section-title">STUDENT ENROLLMENT VERIFICATION LETTER</div>
+
+      <p class="spaced">To Whom It May Concern,</p>
+
+      <p>
+        This letter is to certify that
+        <strong>{{ first_name }} {{ last_name }}</strong>
+        is currently enrolled as a student at the Saint Benet Biscop Catholic Academy
+        Bedlington for the current academic term.
+      </p>
+
+      <div class="details">
+        <p>Student Name: <strong>{{ first_name }} {{ last_name }}</strong></p>
+        <p>Program of Study: Web Developer</p>
+        <p>Enrollment Status: Full-time</p>
+        <p style="margin-top: 3px;">Enrollment Start Date: <span class="date">May 13, 2024</span></p>
+        <p>Expected Completion Date: <span class="date">May 13, 2026</span></p>
+      </div>
+
+      <p class="spaced">
+        This verification is issued at the request of the student and may be used for purposes such as confirming
+        eligibility for student benefits or other official needs.
+      </p>
+
+      <p>
+        If you need any additional information or have questions, please feel free to reach out to our office. We would
+        be happy to assist you.
+      </p>
+
+      <!-- SIGNATURE -->
+      <div class="signature">
+        <p>Sincerely,</p>
+        <img src="signature.png" alt="Signature">
+        <p class="signature-name">Mr. A. J. Norris</p>
+
+        <div class="sig-line"></div>
+
+        <div class="footer">
+          University Registrar<br>
+          Office of the Registrar<br>
+          Saint Benet Biscop Catholic Academy Bedlington<br>
+          https://www.st-benetbiscop.org.uk/ (01670 822 795
+        </div>
+      </div>
+    </div>
+
   </div>
 
-</div>
-
 </body>
+
 </html>

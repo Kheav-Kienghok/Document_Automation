@@ -5,6 +5,7 @@ import random
 import logging
 import httpx
 from typing import Dict, Optional, Tuple
+import time
 
 import config
 from name_generator import NameGenerator, generate_birth_date
@@ -233,6 +234,8 @@ class SheerIDVerifier:
                     else current_step
                 )
 
+            time.sleep(20)  # 等待系统准备好接收文档上传
+
             # 请求上传并上传文档
             logger.info("步骤 4/5: 请求上传 URL ...")
             step4_body = {
@@ -278,46 +281,83 @@ class SheerIDVerifier:
             )
 
             # 获取最终状态（包含 rewardCode）
-            final_status, _ = self._sheerid_request(
+            return self.wait_for_verification_result()
+        except Exception as e:
+            logger.error(f"验证过程中出现错误: {e}")
+            return {
+                "success": False,
+                "pending": False,
+                "message": f"验证失败: {e}",
+                "verification_id": self.verification_id,
+            }
+
+    def wait_for_verification_result(
+        self,
+        max_minutes: int = 20,
+        interval_seconds: int = 60,
+    ) -> Dict:
+        """
+        Poll SheerID verification status every minute.
+        - Fail fast on rejection
+        - Exit early on success
+        """
+
+        checks = int((max_minutes * 60) / interval_seconds)
+
+        logger.info(
+            f"⏳ 开始轮询验证状态（最多 {max_minutes} 分钟，每 {interval_seconds}s 一次）"
+        )
+        for attempt in range(1, checks + 1):
+            data, status = self._sheerid_request(
                 "GET",
                 f"{config.MY_SHEERID_URL}/rest/v2/verification/{self.verification_id}",
             )
-            reward_code = None
-            if isinstance(final_status, dict):
-                reward_code = final_status.get("rewardCode") or final_status.get(
-                    "rewardData", {}
-                ).get("rewardCode")
 
-            return {
-                "success": True,
-                "pending": (
-                    final_status.get("currentStep") != "success"
-                    if isinstance(final_status, dict)
-                    else True
-                ),
-                "message": (
-                    "文档已提交，等待审核"
-                    if not isinstance(final_status, dict)
-                    or final_status.get("currentStep") != "success"
-                    else "验证成功"
-                ),
-                "verification_id": self.verification_id,
-                "redirect_url": (
-                    final_status.get("redirectUrl")
-                    if isinstance(final_status, dict)
-                    else None
-                ),
-                "reward_code": reward_code,
-                "status": final_status,
-            }
+            if status != 200 or not isinstance(data, dict):
+                logger.warning(f"第 {attempt} 次检查失败，响应异常")
+                time.sleep(interval_seconds)
+                continue
 
-        except Exception as e:
-            logger.error(f"❌ 验证失败: {e}")
-            return {
-                "success": False,
-                "message": str(e),
-                "verification_id": self.verification_id,
-            }
+            current_step = data.get("currentStep")
+            rejection_reasons = data.get("rejectionReasons") or []
+
+            logger.info(
+                f"🔁 检查 {attempt}/{checks} | 状态: {current_step} | 拒绝原因: {rejection_reasons}"
+            )
+
+            # ❌ Fail fast
+            if rejection_reasons:
+                return {
+                    "success": False,
+                    "pending": False,
+                    "message": "验证被拒绝",
+                    "rejection_reasons": rejection_reasons,
+                    "verification_id": self.verification_id,
+                    "status": data,
+                }
+
+            # ✅ Success
+            if current_step == "success":
+                return {
+                    "success": True,
+                    "pending": False,
+                    "message": "验证成功",
+                    "verification_id": self.verification_id,
+                    "reward_code": data.get("rewardCode")
+                    or data.get("rewardData", {}).get("rewardCode"),
+                    "redirect_url": data.get("redirectUrl"),
+                    "status": data,
+                }
+
+            time.sleep(interval_seconds)
+
+        # ⏰ Timeout
+        return {
+            "success": False,
+            "pending": True,
+            "message": "等待超时，仍在审核中",
+            "verification_id": self.verification_id,
+        }
 
 
 def main():
